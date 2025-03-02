@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Real Estate Navbar</title>
+    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+   <header class="header">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <div class="container-fluid">
+               <a class="navbar-brand" href="#"><i class="fas fa-house"></i> MyHome</a>
+               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ms-auto">
+                     <li class="nav-item"><a class="nav-link" href="#">Post Property <i class="fas fa-paper-plane"></i></a></li>
+                     
+                     <li class="nav-item dropdown">
+                           <a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown">Sell</a>
+                           <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Post Property</a></li>
+                              <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                           </ul>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-user"></i> Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                           {% if user.is_authenticated %}
+                               <!-- <li><a class="dropdown-item" href="register"><i class="fa-solid fa-user-plus"></i> Register</a></li> -->
+                               <li><a class="dropdown-item" href="logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+                           {% else %}
+                               <li><a class="dropdown-item" href="login"><i class="fa-solid fa-sign-in-alt"></i> Login</a></li>
+                           {% endif %}
+                       </ul>
+                       
+                    </li>
+                     <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                     <li class="nav-item"><a class="nav-link" href="#">About</i></a></li>
+                     <li class="nav-item"><a class="nav-link" href="#">Saved <i class="far fa-heart"></i></a></li>
+                                         
+                  </ul>
+               </div>
+         </div>
+      </nav>
+   </header>
+
+
+   <div class="container mt-5">
+      <div class="row">
+  
+          {% for house in houses %}
+          <div class="col-md-6 mb-4">
+              <div class="card">
+                  <img src="{{ house.image.url }}" alt="House Image">
+                  <div class="p-3">
+                      <h5>{{ house.title }}</h5>
+                      <p class="text-muted">EB Rating: 
+                          <span class="rating">
+                              {% for _ in "x"|rjust:house.rating|make_list %}
+                                  <i class="fas fa-star"></i>
+                              {% endfor %}
+                              <span class="text-dark">{{ house.rating }}</span>
+                          </span>
+                      </p>
+                      <h6 class="text-primary">₹ {{ house.price }}/month</h6>
+                      
+                      <div class="d-flex justify-content-between mt-2">
+                          <div class="info-icon"><i class="fas fa-home"></i> {{ house.property_type }}</div>
+                          <div class="info-icon"><i class="fas fa-lock"></i> ₹{{ house.security_deposit }} <small class="text-muted">(Security Deposit)</small></div>
+                      </div>
+                      <div class="d-flex justify-content-between mt-2">
+                          <div class="info-icon"><i class="fas fa-user"></i> {{ house.preferred_tenants }}</div>
+                          <div class="info-icon"><i class="fas fa-briefcase"></i> {{ house.looking_for }}</div>
+                      </div>
+                      <div class="info-icon mt-2"><i class="fas fa-couch"></i> {{ house.furnishing }}</div>
+                      
+                      <a href="../house_detail/{{house.id}}" class="view-btn mt-3">View Property</a>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+  
+      </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

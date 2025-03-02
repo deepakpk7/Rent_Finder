@@ -1,0 +1,50 @@
+body {
+    background-color: #f8f9fa;
+}
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.rating i {
+    color: #ffc107;
+}
+.info-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.info-icon i {
+    color: #007bff;
+}
+.view-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+@media (max-width: 576px) {
+    .input-group {
+        flex-direction: column;
+    }
+    .form-control {
+        border-radius: 10px !important;
+        margin-bottom: 10px;
+    }
+    .btn {
+        border-radius: 10px !important;
+        width: 100%;
+    }
+}

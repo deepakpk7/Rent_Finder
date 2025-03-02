@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ house.title }} - Property Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            background: white;
+        }
+        .card img {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            max-height: 400px;
+            object-fit: cover;
+        }
+        .property-info i {
+            color: #007bff;
+            margin-right: 8px;
+        }
+        .rating i {
+            color: #ffc107;
+        }
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: linear-gradient(to right, #0056b3, #003f7f);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+           <div class="container-fluid">
+                 <a class="navbar-brand" href="#"><i class="fas fa-house"></i> MyHome</a>
+                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                 </button>
+                 <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                       <li class="nav-item"><a class="nav-link" href="#">Post Property <i class="fas fa-paper-plane"></i></a></li>
+                       <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle" href="#" id="buyDropdown" role="button" data-bs-toggle="dropdown">Buy</a>
+                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">House</a></li>
+                                <li><a class="dropdown-item" href="#">Flat</a></li>
+                                <li><a class="dropdown-item" href="#">Shop</a></li>
+                                <li><a class="dropdown-item" href="#">Ready to Move</a></li>
+                                <li><a class="dropdown-item" href="#">Furnished</a></li>
+                             </ul>
+                       </li>
+                       <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown">Sell</a>
+                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Post Property</a></li>
+                                <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                             </ul>
+                       </li>
+                       <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle" href="#" id="rentDropdown" role="button" data-bs-toggle="dropdown">Rent</a>
+                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">House</a></li>
+                                <li><a class="dropdown-item" href="#">Flat</a></li>
+                                <li><a class="dropdown-item" href="#">Shop</a></li>
+                             </ul>
+                       </li>
+                       <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" data-bs-toggle="dropdown">Help</a>
+                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="about.html">About Us</a></li>
+                                <li><a class="dropdown-item" href="contact.html">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="contact.html#faq">FAQ</a></li>
+                             </ul>
+                       </li>
+                       <li class="nav-item"><a class="nav-link" href="#">Saved <i class="far fa-heart"></i></a></li>
+                       <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">Account</a>
+                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="login">Login</a></li>
+                                <li><a class="dropdown-item" href="register">Register</a></li>
+                                <li><a class="dropdown-item" href="logout">Logout</a></li>
+  
+                             </ul>
+                       </li>
+                    </ul>
+                 </div>
+           </div>
+        </nav>
+     </header>  
+
+    <div class="container">
+        <div class="row">
+            <!-- Property Image -->
+            <div class="col-md-8">
+                <div class="card">
+                    {% if house.image %}
+                        <img src="{{ house.image.url }}" class="img-fluid" alt="{{ house.title }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/800x400" class="img-fluid" alt="Placeholder Image">
+                    {% endif %}
+                </div>
+            </div>
+        
+            <!-- Property Details -->
+            <div class="col-md-4">
+                <h2 class="text-dark fw-bold">{{ house.title }}</h2>
+                <p class="text-muted"><i class="fas fa-map-marker-alt"></i> {{ house.location }}</p>
+                <p class="price">₹ {{ house.price }}/month</p>
+                <p><strong>Security Deposit:</strong> ₹ {{ house.security_deposit }}</p>
+            
+                <!-- Rating -->
+                <div class="rating">
+                    <strong>EB Rating:</strong> 
+                    {% for _ in "x"|rjust:house.rating|make_list %}
+                        <i class="fas fa-star"></i>
+                    {% endfor %}
+                    <span class="text-dark">{{ house.rating }}</span>
+                </div>
+            
+                <hr>
+            
+                <!-- Property Features -->
+                <h5 class="fw-bold">Property Details</h5>
+                <p class="property-info"><i class="fas fa-building"></i> {{ house.property_type }}</p>
+                <p class="property-info"><i class="fas fa-bed"></i> {{ house.bhk_type }} | {{ house.bedrooms }} Bedrooms</p>
+                <p class="property-info"><i class="fas fa-bath"></i> {{ house.bathrooms }} Bathrooms</p>
+                <p class="property-info"><i class="fas fa-couch"></i> {{ house.furnishing }}</p>
+            
+                <hr>
+            
+                <!-- Tenant Preferences -->
+                <h5 class="fw-bold">Tenant Preferences</h5>
+                <p class="property-info"><i class="fas fa-users"></i> Preferred: {{ house.preferred_tenants }}</p>
+                <p class="property-info"><i class="fas fa-briefcase"></i> Suitable For: {{ house.looking_for }}</p>
+                <p class="property-info"><i class="fas fa-calendar"></i> Available From: {{ house.available_from }}</p>
+            
+                <!-- Back Button -->
+                <a href="../../" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Listings</a>
+                </a>
+                <!-- Visit Button -->
+<a href="" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#visitModal">
+    <i class="fas fa-calendar-check"></i> Visit Property
+</a>
+
+            </div>
+        </div>
+    </div>
+    
+
+<!-- Visit Modal -->
+<div class="modal fade" id="visitModal" tabindex="-1" aria-labelledby="visitModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="visitModalLabel">Schedule a Visit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="schedule_visit">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="userName" name="user_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userPhone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="userPhone" name="phone_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="visitTime" class="form-label">Preferred Time Slot</label>
+                        <select class="form-control" id="visitTime" name="time_slot" required>
+                            <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+                            <option value="12:00 PM - 02:00 PM">12:00 PM - 02:00 PM</option>
+                            <option value="02:00 PM - 04:00 PM">02:00 PM - 04:00 PM</option>
+                            <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Ensure the modal opens correctly
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.visit-btn').forEach(button => {
+        button.addEventListener("click", function() {
+            let modal = new bootstrap.Modal(document.getElementById("visitModal"));
+            modal.show();
+        });
+    });
+});
+
+    </script>
+
+</body>
+</html>

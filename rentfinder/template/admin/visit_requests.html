@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<h2>Pending Visit Requests</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Property</th>
+            <th>Phone</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in visit_requests %}
+        <tr>
+            <td>{{ request.user_name }}</td>
+            <td>{{ request.house.title }}</td>
+            <td>{{ request.phone_number }}</td>
+            <td>{{ request.time_slot }}</td>
+            <td>{{ request.status }}</td>
+            <td>
+                <a href="{% url 'update_visit_status' request.id 'approved' %}" class="btn btn-success btn-sm">Approve</a>
+                <a href="{% url 'update_visit_status' request.id 'rejected' %}" class="btn btn-danger btn-sm">Reject</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+</body>
+</html>
