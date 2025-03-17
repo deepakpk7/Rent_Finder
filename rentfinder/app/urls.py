@@ -5,7 +5,9 @@ from . import views
 
 urlpatterns = [
     path('login',views.rent_login),
-    path('validate/<name>/<password>/<email>/<otp>',views.validate,name="validate"),
+    # path('validate/<name>/<password>/<email>/<otp>',views.validate_otp,name="validate"),
+    path('validate-otp/',views.validate_otp, name='validate_otp'),  # ✅ Add this
+
     path('logout',views.rent_logout),
     # -------------------------Admin--------
     path('admin_home',views.admin_home),

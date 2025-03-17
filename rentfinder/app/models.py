@@ -65,7 +65,7 @@ class VisitRequest(models.Model):
         ('rejected', 'Rejected'),
     ]
 
-    house = models.ForeignKey('House', on_delete=models.CASCADE, related_name="visit_requests")
+    house = models.ForeignKey(House, on_delete=models.CASCADE, related_name="visit_requests")
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     user_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)

@@ -44,12 +44,8 @@ def rent_login(req):
     else:
         return render(req,'login.html')
 
-def OTP(req):
-    digits = "0123456789"
-    OTP = ""
-    for i in range(6) :
-        OTP += digits[math.floor(random.random() * 10)]
-    return OTP
+def generate_otp():
+    return ''.join(random.choices("0123456789", k=6))
 
 def register(req):
     if req.method == 'POST':
@@ -74,24 +70,57 @@ def register(req):
             messages.error(req, "Password must be at least 8 characters long, contain a number and a special character.")
             return redirect("register")
 
+        # Generate OTP
+        otp = generate_otp()
+
+        # Store user details and OTP in session (temporary storage)
+        req.session['register_data'] = {
+            'email': email,
+            'name': name,
+            'password': password,
+            'otp': otp
+        }
+
+        # Send OTP via email
+        subject = "Your OTP for Account Registration"
+        message = f"Hello {name},\n\nYour OTP for verification is: {otp}.\n\nBest Regards,\nYour Website Team"
+        sender_email = settings.EMAIL_HOST_USER
+        send_mail(subject, message, sender_email, [email])
+
         messages.success(req, "OTP sent! Check your email.")
         return redirect("validate_otp")  # Redirect to OTP validation page
 
     return render(req, 'register.html')
 
-def validate(req,name,password,email,otp):
-    if req.method=='POST':
-        uotp=req.POST['uotp']
-        if uotp==otp:
-            data=User.objects.create_user(first_name=name,email=email,password=password,username=email)
-            data.save()
+def validate_otp(req):
+    if req.method == 'POST':
+        user_otp = req.POST.get('user_otp', '').strip()
+        register_data = req.session.get('register_data', {})
+
+        # Check if session data exists
+        if not register_data:
+            messages.error(req, "Session expired! Please register again.")
+            return redirect("register")
+
+        # Extract user data
+        name = register_data.get('name')
+        email = register_data.get('email')
+        password = register_data.get('password')
+        otp = register_data.get('otp')
+
+        if user_otp == otp:
+            # Create User
+            user = User.objects.create_user(username=email, email=email, password=password, first_name=name)
+            user.save()
+
             messages.success(req, "OTP verified successfully. You can now log in.")
-            return redirect(rent_login)
+            return redirect(rent_login)  # Redirect to login page
         else:
             messages.error(req, "Invalid OTP. Please try again.")
-            return redirect("validate",name=name,password=password,email=email,otp=otp)
-    else:
-        return render(req,'validate.html',{'name':name,'pass':password,'email':email,'otp':otp})
+            return redirect("validate_otp")  # Stay on OTP page
+
+    return render(req, 'validate.html')
+
 
 def rent_logout(req):
     logout(req)
@@ -147,26 +176,33 @@ def manage_visit_requests(request):
     visit_requests = VisitRequest.objects.filter(status='pending')
     return render(request, 'admin/visit_requests.html', {'visit_requests': visit_requests})
 
-@staff_member_required
 def update_visit_status(request, id, status):
     visit_request = get_object_or_404(VisitRequest, id=id)
     visit_request.status = status
     visit_request.save()
 
-    # Get the user's email from the User model
-    user_email = visit_request.user.email  # ✅ Use visit_request.user.email if user is linked
+    subject = ""
+    message = ""
+    
+    if status == 'approved':
+        subject = "Your House Visit Request Has Been Approved!"
+        message = f"Hello {visit_request.user.username},\n\nYour house visit request for {visit_request.house.title} has been approved.\n\nThank you for using our service!\n\nBest Regards,\nAdmin Team"
+    else:
+        subject = "Your House Visit Request Has Been Rejected!"
+        message = f"Hello {visit_request.user.username},\n\nUnfortunately, your house visit request for {visit_request.house.title} has been rejected.\n\nThank you for using our service!\n\nBest Regards,\nAdmin Team"
 
-    # Send email
-    from django.core.mail import send_mail
-    send_mail(
-        subject="Visit Request Status Update",
-        message=f"Dear {visit_request.user_name}, your visit request has been {status}.",
-        from_email='electronicera0124@gmail.com',  # Replace with your admin email
-        recipient_list=[user_email],  # Use correct email field
-        fail_silently=False,
-    )
+    recipient_email = visit_request.user.email
+    print(recipient_email)
+    sender_email = settings.EMAIL_HOST_USER
+    send_mail(subject, message, sender_email, [recipient_email])
+    
 
-    messages.success(request, f"Visit request has been {status} and email sent!")
+    try:
+        send_mail(subject, message, sender_email, [recipient_email], fail_silently=False)
+        messages.success(request, f"Visit request has been {status} and email sent successfully!")
+    except Exception as e:
+        messages.error(request, f"Error sending email: {e}")
+    
     return redirect('manage_visit_requests')
 
 
