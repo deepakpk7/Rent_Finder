@@ -9,90 +9,54 @@
     <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Custom Styles -->
     <style>
         body {
             background-color: #f8f9fa;
         }
-
         .container {
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-
         .table img {
             border-radius: 5px;
         }
-
-        .table thead {
-            background-color: #343a40;
-            color: white;
-        }
-
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
-
-        .action-buttons a {
-            margin-right: 5px;
-        }
-
-        .btn-sm {
+        .pagination {
+            margin-top: 15px;
             display: flex;
-            align-items: center;
-            gap: 5px;
+            justify-content: center;
         }
-
-        .navbar-brand {
-            font-weight: bold;
+        .pagination .page-item {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container-fluid">
-            <!-- Brand -->
-            <a class="navbar-brand fw-bold" href="#">
-                🏠 Admin Dashboard
-            </a>
-
-            <!-- Toggle Button (for mobile) -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand fw-bold" href="#">🏠 Admin Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <!-- Navbar Links -->
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary btn-sm text-white me-2" href="add_house">
-                            ➕ Add House
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-success btn-sm text-white me-2" href="visit_requests">
-                            📅 Visit Requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-danger btn-sm text-white" href="logout">
-                            🚪 Logout
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary btn-sm text-white me-2" href="add_house">➕ Add House</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-success btn-sm text-white me-2" href="visit_requests">📅 Visit Requests</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="logout">🚪 Logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-
-
-    <!-- Content Section -->
+    <!-- House Listings Section -->
     <div class="container mt-4">
         <h2 class="text-center mb-4 text-primary">🏡 House Listings</h2>
-
         <div class="table-responsive">
             <table class="table table-striped table-hover text-center align-middle">
                 <thead>
@@ -106,7 +70,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="houseTable">
                     {% for house in data %}
                     <tr>
                         <td>{{ house.id }}</td>
@@ -114,13 +78,7 @@
                         <td>₹{{ house.price }}</td>
                         <td>{{ house.location }}</td>
                         <td>{{ house.get_property_type_display }}</td>
-                        <td>
-                            {% if house.image %}
-                            <img src="{{ house.image.url }}" width="50" height="50" class="img-thumbnail">
-                            {% else %}
-                            <span class="text-muted">No Image</span>
-                            {% endif %}
-                        </td>
+                        <td>{% if house.image %}<img src="{{ house.image.url }}" width="50" height="50" class="img-thumbnail">{% else %}<span class="text-muted">No Image</span>{% endif %}</td>
                         <td class="action-buttons">
                             <a href="edit/{{house.id}}" class="btn btn-warning btn-sm">✏️ Edit</a>
                             <a href="delete/{{house.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">🗑️ Delete</a>
@@ -130,14 +88,19 @@
                 </tbody>
             </table>
         </div>
+        <nav>
+            <ul class="pagination" id="housePagination"></ul>
+        </nav>
     </div>
+
+    <!-- Visit Requests Section -->
     <div class="container">
         <h2 class="text-center text-primary fw-bold mb-4"> Visit Requests</h2>
-
         <div class="table-responsive">
             <table class="table table-striped table-bordered text-center align-middle">
                 <thead>
                     <tr>
+                        <th>Request Date</th>
                         <th>User</th>
                         <th>Property</th>
                         <th>Phone</th>
@@ -145,9 +108,10 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="visitTable">
                     {% for request in data2 %}
                     <tr>
+                        <td>{{ request.requested_at }}</td>
                         <td>{{ request.user_name }}</td>
                         <td>{{ request.house.title }}</td>
                         <td>{{ request.phone_number }}</td>
@@ -166,7 +130,72 @@
                 </tbody>
             </table>
         </div>
+        <nav>
+            <ul class="pagination" id="visitPagination"></ul>
+        </nav>
     </div>
+
+    <!-- JavaScript for Pagination -->
+    <script>
+        function paginateTable(tableId, paginationId, rowsPerPage) {
+            let table = document.getElementById(tableId);
+            let pagination = document.getElementById(paginationId);
+            let rows = table.getElementsByTagName("tr");
+            let pageCount = Math.ceil(rows.length / rowsPerPage);
+            let currentPage = 1;
+
+            function displayPage(page) {
+                let start = (page - 1) * rowsPerPage;
+                let end = start + rowsPerPage;
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].style.display = (i >= start && i < end) ? "" : "none";
+                }
+            }
+
+            function createPaginationButtons() {
+                pagination.innerHTML = "";
+                let prevButton = document.createElement("li");
+                prevButton.className = "page-item";
+                prevButton.innerHTML = `<a class="page-link">«</a>`;
+                prevButton.onclick = function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayPage(currentPage);
+                    }
+                };
+                pagination.appendChild(prevButton);
+
+                for (let i = 1; i <= pageCount; i++) {
+                    let btn = document.createElement("li");
+                    btn.className = "page-item";
+                    btn.innerHTML = `<a class="page-link">${i}</a>`;
+                    btn.onclick = function() {
+                        currentPage = i;
+                        displayPage(currentPage);
+                    };
+                    pagination.appendChild(btn);
+                }
+
+                let nextButton = document.createElement("li");
+                nextButton.className = "page-item";
+                nextButton.innerHTML = `<a class="page-link">»</a>`;
+                nextButton.onclick = function() {
+                    if (currentPage < pageCount) {
+                        currentPage++;
+                        displayPage(currentPage);
+                    }
+                };
+                pagination.appendChild(nextButton);
+            }
+
+            displayPage(currentPage);
+            createPaginationButtons();
+        }
+
+        paginateTable("houseTable", "housePagination", 10);
+        paginateTable("visitTable", "visitPagination", 10);
+    </script>
+
     <!-- Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

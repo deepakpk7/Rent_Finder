@@ -104,7 +104,7 @@ def rent_logout(req):
 def admin_home(req):
     if 'admin' in req.session:
         data=House.objects.all()
-        data2=VisitRequest.objects.all()
+        data2 = VisitRequest.objects.all().order_by('-requested_at')  # Newest first
         return render(req,'admin/admin_home.html',{'data':data,'data2':data2})
     else:
         return redirect(rent_login)
@@ -148,12 +148,28 @@ def manage_visit_requests(request):
     return render(request, 'admin/visit_requests.html', {'visit_requests': visit_requests})
 
 @staff_member_required
-def update_visit_status(request,id, status):
+def update_visit_status(request, id, status):
     visit_request = get_object_or_404(VisitRequest, id=id)
     visit_request.status = status
     visit_request.save()
-    messages.success(request, f"Visit request has been {status}!")
+
+    # Get the user's email from the User model
+    user_email = visit_request.user.email  # ✅ Use visit_request.user.email if user is linked
+
+    # Send email
+    from django.core.mail import send_mail
+    send_mail(
+        subject="Visit Request Status Update",
+        message=f"Dear {visit_request.user_name}, your visit request has been {status}.",
+        from_email='electronicera0124@gmail.com',  # Replace with your admin email
+        recipient_list=[user_email],  # Use correct email field
+        fail_silently=False,
+    )
+
+    messages.success(request, f"Visit request has been {status} and email sent!")
     return redirect('manage_visit_requests')
+
+
 
 
 # ___________________________User_____________________________
