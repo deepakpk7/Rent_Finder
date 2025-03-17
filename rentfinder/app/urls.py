@@ -15,10 +15,10 @@ urlpatterns = [
     
     path('',views.user_home),
     path('register',views.register),
-    # path('house_detail/<id>',views.house_detail),
     path('house_detail/<id>/', views.house_detail, name='house_detail'), 
+    path('visit/<id>',views.visit),
 
-     path('visit-request/<int:house_id>/',views.schedule_visit, name='schedule_visit'),
-    path('admin/visit-requests/', views.manage_visit_requests, name='manage_visit_requests'),
-    path('admin/visit-request/<int:visit_id>/<str:status>/', views.update_visit_status, name='update_visit_status'),
+    # path('visit-request/<int:house_id>/',views.schedule_visit, name='schedule_visit'),
+    path('visit_requests', views.manage_visit_requests, name='manage_visit_requests'),
+    path('visit-request/<id>/<str:status>/', views.update_visit_status, name='update_visit_status'),
 ]

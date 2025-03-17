@@ -59,23 +59,14 @@
     <header class="header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
            <div class="container-fluid">
-                 <a class="navbar-brand" href="#"><i class="fas fa-house"></i> MyHome</a>
+                 <a class="navbar-brand" href="../../"><i class="fas fa-house"></i> MyHome</a>
                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                  </button>
                  <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                        <li class="nav-item"><a class="nav-link" href="#">Post Property <i class="fas fa-paper-plane"></i></a></li>
-                       <li class="nav-item dropdown">
-                             <a class="nav-link dropdown-toggle" href="#" id="buyDropdown" role="button" data-bs-toggle="dropdown">Buy</a>
-                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">House</a></li>
-                                <li><a class="dropdown-item" href="#">Flat</a></li>
-                                <li><a class="dropdown-item" href="#">Shop</a></li>
-                                <li><a class="dropdown-item" href="#">Ready to Move</a></li>
-                                <li><a class="dropdown-item" href="#">Furnished</a></li>
-                             </ul>
-                       </li>
+                       
                        <li class="nav-item dropdown">
                              <a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown">Sell</a>
                              <ul class="dropdown-menu">
@@ -84,37 +75,37 @@
                              </ul>
                        </li>
                        <li class="nav-item dropdown">
-                             <a class="nav-link dropdown-toggle" href="#" id="rentDropdown" role="button" data-bs-toggle="dropdown">Rent</a>
-                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">House</a></li>
-                                <li><a class="dropdown-item" href="#">Flat</a></li>
-                                <li><a class="dropdown-item" href="#">Shop</a></li>
-                             </ul>
-                       </li>
-                       <li class="nav-item dropdown">
-                             <a class="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" data-bs-toggle="dropdown">Help</a>
-                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="about.html">About Us</a></li>
-                                <li><a class="dropdown-item" href="contact.html">Contact Us</a></li>
-                                <li><a class="dropdown-item" href="contact.html#faq">FAQ</a></li>
-                             </ul>
-                       </li>
+                        <a class="nav-link dropdown-toggle" href="" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-user"></i> Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                           {% if user.is_authenticated %}
+                               <li><a class="dropdown-item" href="../../logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+                           {% else %}
+                               <li><a class="dropdown-item" href="../../login"><i class="fa-solid fa-sign-in-alt"></i> Login</a></li>
+                           {% endif %}
+                       </ul>
+                       
+                        </li>
+                       <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                       <li class="nav-item"><a class="nav-link" href="#">About</i></a></li>
                        <li class="nav-item"><a class="nav-link" href="#">Saved <i class="far fa-heart"></i></a></li>
-                       <li class="nav-item dropdown">
-                             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">Account</a>
-                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="login">Login</a></li>
-                                <li><a class="dropdown-item" href="register">Register</a></li>
-                                <li><a class="dropdown-item" href="logout">Logout</a></li>
-  
-                             </ul>
-                       </li>
+                                           
                     </ul>
                  </div>
            </div>
         </nav>
-     </header>  
-
+    </header>
+    <div class="msg position-absolute top-0 end-0 m-3">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
     <div class="container">
         <div class="row">
             <!-- Property Image -->
@@ -165,62 +156,19 @@
                 <a href="../../" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Listings</a>
                 </a>
                 <!-- Visit Button -->
-<a href="" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#visitModal">
-    <i class="fas fa-calendar-check"></i> Visit Property
-</a>
-
+                <a href="../../visit/{{house.id}}" class="btn btn-success mt-3">
+                    <i class="fas fa-calendar-check"></i> Visit Property
+                </a>
             </div>
         </div>
     </div>
     
 
-<!-- Visit Modal -->
-<div class="modal fade" id="visitModal" tabindex="-1" aria-labelledby="visitModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="visitModalLabel">Schedule a Visit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="schedule_visit">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="userName" class="form-label">Your Name</label>
-                        <input type="text" class="form-control" id="userName" name="user_name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="userPhone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="userPhone" name="phone_number" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="visitTime" class="form-label">Preferred Time Slot</label>
-                        <select class="form-control" id="visitTime" name="time_slot" required>
-                            <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
-                            <option value="12:00 PM - 02:00 PM">12:00 PM - 02:00 PM</option>
-                            <option value="02:00 PM - 04:00 PM">02:00 PM - 04:00 PM</option>
-                            <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Submit Request</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
-    <script>
-        // Ensure the modal opens correctly
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('.visit-btn').forEach(button => {
-        button.addEventListener("click", function() {
-            let modal = new bootstrap.Modal(document.getElementById("visitModal"));
-            modal.show();
-        });
-    });
-});
 
-    </script>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

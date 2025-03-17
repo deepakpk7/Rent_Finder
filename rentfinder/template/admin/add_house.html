@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">BHK Type</label>
-                    <select name="bhk_type" class="form-select" required>
+                    <select name="bhk_type" class="form-select" >
                         {% for value, label in form.bhk_type.field.choices %}
                         <option value="{{ value }}">{{ label }}</option>
                         {% endfor %}

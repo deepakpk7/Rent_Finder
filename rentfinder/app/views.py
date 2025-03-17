@@ -104,7 +104,8 @@ def rent_logout(req):
 def admin_home(req):
     if 'admin' in req.session:
         data=House.objects.all()
-        return render(req,'admin/admin_home.html',{'data':data})
+        data2=VisitRequest.objects.all()
+        return render(req,'admin/admin_home.html',{'data':data,'data2':data2})
     else:
         return redirect(rent_login)
     
@@ -140,6 +141,21 @@ def delete_house(request, id):
     house.delete()
     return redirect(admin_home)
 
+# Admin View to Approve or Reject Requests
+@staff_member_required
+def manage_visit_requests(request):
+    visit_requests = VisitRequest.objects.filter(status='pending')
+    return render(request, 'admin/visit_requests.html', {'visit_requests': visit_requests})
+
+@staff_member_required
+def update_visit_status(request,id, status):
+    visit_request = get_object_or_404(VisitRequest, id=id)
+    visit_request.status = status
+    visit_request.save()
+    messages.success(request, f"Visit request has been {status}!")
+    return redirect('manage_visit_requests')
+
+
 # ___________________________User_____________________________
 
 def user_home(req):
@@ -150,7 +166,46 @@ def house_detail(request,id):
     house = get_object_or_404(House, id=id)
     return render(request, 'user/house_detail.html', {'house': house})
 
+# def visit(req,id):
+#     house = get_object_or_404(House, id=id)
+#     if req.method == 'POST':
+#         user_name=req.POST['user_name']
+#         phone_number=req.POST['phone_number']
+#         time_slot=req.POST['time_slot']
+#         data=VisitRequest.objects.create(user_name=user_name,phone_number=phone_number,time_slot=time_slot)
+#         data.save()
+#     return render(req,'user/visit.html',{'house':house})
 
+
+def visit(request, id):
+    if 'user' in request.session:
+        house = get_object_or_404(House, id=id)  # Get the house object
+
+        if request.method == 'POST':
+            user_name = request.POST.get('user_name')
+            phone_number = request.POST.get('phone_number')
+            time_slot = request.POST.get('time_slot')
+
+            # Ensure all fields are filled
+            if not user_name or not phone_number or not time_slot:
+                messages.error(request, "All fields are required!")
+                return render(request, 'user/visit.html', {'house': house})
+
+            # Create visit request with house field
+            visit_request = VisitRequest.objects.create(
+                house=house,  # Assign the house
+                user=request.user if request.user.is_authenticated else None,  # Assign user if logged in
+                user_name=user_name,
+                phone_number=phone_number,
+                time_slot=time_slot
+            )
+            visit_request.save()
+            
+            messages.success(request, "Your visit request has been submitted successfully!")
+            return redirect('house_detail', id=id)  # Redirect to house detail page
+        return render(request, 'user/visit.html', {'house': house})
+    else:
+        return redirect(rent_login)  # Redirect to login page if user is not logged in
 
 
 def schedule_visit(request, house_id):
@@ -171,16 +226,3 @@ def schedule_visit(request, house_id):
 
     return redirect('house_detail', house_id=house.id)
 
-# Admin View to Approve or Reject Requests
-@staff_member_required
-def manage_visit_requests(request):
-    visit_requests = VisitRequest.objects.filter(status='pending')
-    return render(request, 'admin/visit_requests.html', {'visit_requests': visit_requests})
-
-@staff_member_required
-def update_visit_status(request, visit_id, status):
-    visit_request = get_object_or_404(VisitRequest, id=visit_id)
-    visit_request.status = status
-    visit_request.save()
-    messages.success(request, f"Visit request has been {status}!")
-    return redirect('manage_visit_requests')
