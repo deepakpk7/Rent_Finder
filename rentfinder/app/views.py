@@ -13,6 +13,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.core.validators import validate_email
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 import re
 from .models import VisitRequest
@@ -218,16 +219,32 @@ def house_detail(request,id):
     house = get_object_or_404(House, id=id)
     return render(request, 'user/house_detail.html', {'house': house})
 
-# def visit(req,id):
-#     house = get_object_or_404(House, id=id)
-#     if req.method == 'POST':
-#         user_name=req.POST['user_name']
-#         phone_number=req.POST['phone_number']
-#         time_slot=req.POST['time_slot']
-#         data=VisitRequest.objects.create(user_name=user_name,phone_number=phone_number,time_slot=time_slot)
-#         data.save()
-#     return render(req,'user/visit.html',{'house':house})
+# @login_required
+def profile(req):
+    if 'user' in req.session:
+        visit_requests = VisitRequest.objects.filter(user=req.user).order_by('-id')  # Fetch user's visit requests
+        return render(req,'user/profile.html', {'visit_requests': visit_requests})
+    else:
+        return redirect(rent_login)
 
+def update_profile(req):
+    if req.method == "POST":
+        new_first_name = req.POST.get("name")
+        new_username = req.POST.get("username")
+
+        if User.objects.filter(username=new_username).exclude(id=req.user.id).exists():
+            messages.error(req, "This username is already taken. Please choose another one.")
+            return redirect(profile) 
+
+        
+        if new_first_name and new_username:
+            req.user.first_name = new_first_name
+            req.user.username = new_username
+            req.user.save()
+            messages.success(req, "Username updated successfully!")
+        else:
+            messages.error(req, "Username and Name cannot be empty.")
+    return redirect(profile)
 
 def visit(request, id):
     if 'user' in request.session:
