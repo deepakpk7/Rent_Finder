@@ -295,3 +295,7 @@ def schedule_visit(request, house_id):
 
     return redirect('house_detail', house_id=house.id)
 
+
+def contact(req):
+    return render(req, 'user/contact.html')
+
