@@ -299,3 +299,6 @@ def schedule_visit(request, house_id):
 def contact(req):
     return render(req, 'user/contact.html')
 
+def about(req):
+    return render(req,'user/about.html')
+

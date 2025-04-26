@@ -15,44 +15,36 @@
 
    <header class="header">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-         <div class="container-fluid">
-               <a class="navbar-brand" href="../"><i class="fas fa-house"></i> MyHome</a>
-               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <div class="container-fluid">
+              <!-- Logo & Brand Name -->
+              <a href="../" class="navbar-brand">
+                  <img src="{% static 'img/Logo.jpg' %}" alt="Logo" class="img-fluid rounded-circle" style="height: 60px; width: 60px; object-fit: cover;">
+              </a>
+              
+  
+              <!-- Mobile Toggle Button -->
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
-               </button>
-               <div class="collapse navbar-collapse" id="navbarNav">
+              </button>
+  
+              <!-- Navigation Links -->
+              <div class="collapse navbar-collapse" id="navbarNav">
                   <ul class="navbar-nav ms-auto">
-                     <li class="nav-item"><a class="nav-link" href="#">Post Property <i class="fas fa-paper-plane"></i></a></li>
-                     
-                     <li class="nav-item dropdown">
-                           <a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown">Sell</a>
-                           <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Post Property</a></li>
-                              <li><a class="dropdown-item" href="#">Dashboard</a></li>
-                           </ul>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="profile" id="profileDropdown">
-                            <i class="fa-solid fa-user"></i> Profile
-                        </a>
-                        <!-- <ul class="dropdown-menu">
-                           {% if user.is_authenticated %}
-                               <li><a class="dropdown-item" href="logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
-                           {% else %}
-                               <li><a class="dropdown-item" href="login"><i class="fa-solid fa-sign-in-alt"></i> Login</a></li>
-                           {% endif %}
-                        </ul> -->
-                       
-                    </li>
-                     <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                     <li class="nav-item"><a class="nav-link" href="#">About</i></a></li>
-                     <li class="nav-item"><a class="nav-link" href="#">Saved <i class="far fa-heart"></i></a></li>
-                                         
+                     <li class="nav-item"><a class="nav-link" href="../"><i class="fas fa-home me-1"></i> Home</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#">Post Property <i class="fas fa-paper-plane"></i></a></li>
+                      <li class="nav-item"><a class="nav-link" href="profile"><i class="fa-solid fa-user"></i> Profile</a></li>
+                      <li class="nav-item"><a class="nav-link" href="contact">Contact Us</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                      {% if user.is_authenticated %}
+                          <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+                      {% else %}
+                          <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+                      {% endif %}
                   </ul>
-               </div>
-         </div>
+              </div>
+          </div>
       </nav>
-   </header>
+  </header>
 
    <div class="container mt-5 pt-5">
     <h2 class="mt-4 mb-3">Hey, <span class="fw-bold">{{ user.first_name }}</span></h2>
