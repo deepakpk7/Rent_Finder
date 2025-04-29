@@ -14,3 +14,13 @@ class VisitRequestForm(forms.ModelForm):
     class Meta:
         model = VisitRequest
         fields = ['user_name', 'phone_number', 'time_slot']
+        
+        
+class PostPropertyForm(forms.ModelForm):
+    class Meta:
+        model = Post_Property
+        fields = '__all__'
+        widgets = {
+            'available_from': forms.DateInput(attrs={'type': 'date'}),
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }

@@ -23,6 +23,7 @@ urlpatterns = [
     path('update_profile',views.update_profile),
     path('contact',views.contact),
     path('about',views.about),
+    path('post_property',views.post_property),
 
     # path('visit-request/<int:house_id>/',views.schedule_visit, name='schedule_visit'),
     path('visit_requests', views.manage_visit_requests, name='manage_visit_requests'),

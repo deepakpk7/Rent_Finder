@@ -158,7 +158,9 @@ def edit_house(request,id):
         form = HouseForm(request.POST, request.FILES, instance=house)
         if form.is_valid():
             form.save()
-            return redirect('house_list')  # Redirect to house list after saving
+            return redirect(admin_home)  # Redirect to house list after saving
+        else:
+            return redirect(admin_home)
     else:
         form = HouseForm(instance=house)
 
@@ -296,9 +298,41 @@ def schedule_visit(request, house_id):
     return redirect('house_detail', house_id=house.id)
 
 
+
+
 def contact(req):
-    return render(req, 'user/contact.html')
+    if req.method == 'POST':
+        name = req.POST['name']
+        email = req.POST['email']
+        phone = req.POST['phone']
+        message = req.POST['message']
+        try:
+            data = Contact.objects.create(
+                name=name,
+                email=email,
+                phone=phone,
+                message=message
+            )
+            data.save()
+            return render(req, 'user/contact.html')
+        except Exception as e:
+            return render(req,'user/contact.html')
+    
+    return render(req,'user/contact.html')
 
 def about(req):
     return render(req,'user/about.html')
+
+def post_property(req):
+    if 'user' in req.session:
+            if req.method == 'POST':
+                form = PostPropertyForm(req.POST, req.FILES)
+                if form.is_valid():
+                    form.save()
+                    return redirect(user_home)  # Redirect to the house list page
+            else:
+                form = PostPropertyForm()
+            return render(req,'user/post_property.html',{'form': form})
+    else:
+        return redirect(rent_login)
 
