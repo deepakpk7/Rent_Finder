@@ -14,6 +14,9 @@ urlpatterns = [
     path('add_house', add_house, name='add_house'),
     path('edit/<id>/', views.edit_house),  # Edit House
     path('delete/<id>/', views.delete_house),
+    path('user_post',views.user_post),
+    
+    
     
     path('',views.user_home),
     path('register',views.register),

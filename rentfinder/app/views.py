@@ -208,6 +208,10 @@ def update_visit_status(request, id, status):
     
     return redirect('manage_visit_requests')
 
+def user_post(req):
+    properties = Post_Property.objects.all()
+    return render(req,'admin/user_post.html',{'properties': properties})
+
 
 
 
