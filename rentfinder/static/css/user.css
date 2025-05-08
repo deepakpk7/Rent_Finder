@@ -37,6 +37,8 @@ body {
 }
 
 
+
+
 @media (max-width: 576px) {
     .input-group {
         flex-direction: column;
