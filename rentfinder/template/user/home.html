@@ -150,40 +150,14 @@
       </div>
     </div>
 
-    <div class="container">
+    <!-- Property List -->
+    <div class="container mt-3">
       <div class="row" id="propertyList">
         {% for house in houses %}
-        <div class="col-12 col-sm-6 col-lg-4 mb-4 property-card" data-location="{{ house.location|lower }}">
-          <div class="card h-100 shadow-sm">
-            <img
-              src="{{ house.image.url }}"
-              class="card-img-top"
-              style="height: 200px; object-fit: cover"
-            />
-            <div class="card-body">
-              <h5 class="card-title">{{ house.title }}</h5>
-              <p class="card-text">
-                <strong>Location:</strong> {{ house.location }}
-              </p>
-              <p class="card-text">
-                <strong>Price:</strong> ₹{{ house.price }}
-              </p>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="text-center mt-4" id="noResultsMessage" style="display: none">
-        <h5 class="text-muted">
-          No properties found for the entered location.
-        </h5>
-      </div>
-    </div>
-
-    <div class="container mt-5">
-      <div class="row">
-        {% for house in houses %}
-        <div class="col-md-6 mb-4">
+        <div
+          class="col-md-6 mb-4 property-card"
+          data-location="{{ house.location|lower }}"
+        >
           <div class="card">
             <img src="{{ house.image.url }}" alt="House Image" />
             <div class="p-3">
@@ -219,7 +193,6 @@
               <div class="info-icon mt-2">
                 <i class="fas fa-couch"></i> {{ house.furnishing }}
               </div>
-
               <a href="../house_detail/{{house.id}}" class="view-btn mt-3"
                 >View Property</a
               >
@@ -227,6 +200,19 @@
           </div>
         </div>
         {% endfor %}
+      </div>
+
+      <!-- No Results Message -->
+      <div
+        id="noResultsMessage"
+        class="text-center text-danger mt-4"
+        style="display: none"
+      >
+        <h5>
+          No properties found the entered location:
+          "<span id="enteredLocation" class="fw-semibold text-dark"></span>".
+        </h5>
+        <a href="" class="btn btn-outline-danger mt-3"> OK </a>
       </div>
     </div>
     <footer class="bg-dark text-light mt-5">
@@ -292,27 +278,36 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      function filterByLocation() {
-        const input = document
-          .getElementById("searchInput")
-          .value.toLowerCase()
-          .trim();
-        const cards = document.querySelectorAll(".property-card");
-        const noResults = document.getElementById("noResultsMessage");
-        let visibleCount = 0;
+          function filterByLocation() {
+            const input = document
+              .getElementById("searchInput")
+              .value.toLowerCase()
+              .trim();
+            const cards = document.querySelectorAll(".property-card");
+            const noResults = document.getElementById("noResultsMessage");
+            let visibleCount = 0;
+            const enteredLocation = document.getElementById("enteredLocation");
 
-        cards.forEach((card) => {
-          const location = card.getAttribute("data-location");
-          if (location.includes(input)) {
-            card.style.display = "block";
-            visibleCount++;
-          } else {
-            card.style.display = "none";
-          }
-        });
-
+            cards.forEach((card) => {
+              const location = card.getAttribute("data-location");
+              if (location.includes(input)) {
+                card.style.display = "block";
+                visibleCount++;
+              } else {
+                card.style.display = "none";
+              }
+            });
+            if (visibleCount === 0 && input !== "") {
+              enteredLocation.textContent = input;
+              noResults.style.display = "block";
+            } else {
+          noResults.style.display = "none";
+        }
         noResults.style.display = visibleCount === 0 ? "block" : "none";
+
       }
+
+          
     </script>
   </body>
 </html>
