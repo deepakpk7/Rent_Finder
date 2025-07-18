@@ -1,313 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {% load static %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rent Finder</title>
-    <link rel="stylesheet" href="{% static 'css/user.css' %}" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <script
-      src="https://kit.fontawesome.com/your-fontawesome-kit.js"
-      crossorigin="anonymous"
-    ></script>
-    <style>
-      .search-box {
-        width: fit-content;
-        height: fit-content;
-        position: relative;
-        color: black;
-      }
-      .input-search {
-        height: 50px;
-        width: 50px;
-        border: none;
-        padding: 10px;
-        font-size: 18px;
-        /* letter-spacing: 2px; */
-        outline: none;
-        border-radius: 25px;
-        transition: all 0.5s ease-in-out;
-        background-color: #6c5ce7; /* background of input */
-        color: #050505;
-        padding-right: 40px;
-      }
-      .input-search::placeholder {
-        color: rgba(12, 12, 12, 0.5);
-        font-size: 18px;
-        font-weight: 100;
-      }
-      .btn-search {
-        width: 50px;
-        height: 50px;
-        border: none;
-        font-size: 20px;
-        font-weight: bold;
-        outline: none;
-        cursor: pointer;
-        border-radius: 50%;
-        position: absolute;
-        right: 0;
-        top: 0;
-        color: #060606; /* search icon color */
 
-        background-color: transparent;
-      }
-      .btn-search:focus ~ .input-search,
-      .input-search:focus {
-        width: 300px;
-        border-radius: 0;
-        background-color: transparent;
-        border-bottom: 1px solid #00ffab;
-        transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
-      }
-    </style>
-  </head>
-  <body>
-    <header class="header">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <!-- Logo & Brand Name -->
-          <a href="" class="navbar-brand">
-            <img
-              src="{% static 'img/Logo.jpg' %}"
-              alt="Logo"
-              class="img-fluid rounded-circle"
-              style="height: 60px; width: 60px; object-fit: cover"
-            />
-          </a>
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rent Finder</title>
+  <link rel="stylesheet" href="{% static 'css/user.css' %}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+  <style>
+    .search-box {
+      width: fit-content;
+      height: fit-content;
+      position: relative;
+      color: black;
+    }
 
-          <!-- Mobile Toggle Button -->
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+    .input-search {
+      height: 50px;
+      width: 50px;
+      border: none;
+      padding: 10px;
+      font-size: 18px;
+      /* letter-spacing: 2px; */
+      outline: none;
+      border-radius: 25px;
+      transition: all 0.5s ease-in-out;
+      background-color: #6c5ce7;
+      /* background of input */
+      color: #050505;
+      padding-right: 40px;
+    }
 
-          <!-- Navigation Links -->
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href=""
-                  ><i class="fas fa-home me-1"></i> Home</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="../post_property"
-                  >Post Property <i class="fas fa-paper-plane"></i
-                ></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile"
-                  ><i class="fa-solid fa-user"></i> Profile</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="contact">Contact Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about">About</a>
-              </li>
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="logout">Logout</a>
-              </li>
-              {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="login">Login</a>
-              </li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
+    .input-search::placeholder {
+      color: rgba(12, 12, 12, 0.5);
+      font-size: 18px;
+      font-weight: 100;
+    }
 
-    <div class="container my-4 d-flex justify-content-center">
-      <div class="search-box">
-        <button class="btn-search" onclick="filterByLocation()">
-          <i class="fas fa-search"></i>
+    .btn-search {
+      width: 50px;
+      height: 50px;
+      border: none;
+      font-size: 20px;
+      font-weight: bold;
+      outline: none;
+      cursor: pointer;
+      border-radius: 50%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: #060606;
+      /* search icon color */
+
+      background-color: transparent;
+    }
+
+    .btn-search:focus~.input-search,
+    .input-search:focus {
+      width: 300px;
+      border-radius: 0;
+      background-color: transparent;
+      border-bottom: 1px solid #00ffab;
+      transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <!-- Logo & Brand Name -->
+        <a href="" class="navbar-brand">
+          <img src="{% static 'img/Logo.jpg' %}" alt="Logo" class="img-fluid rounded-circle"
+            style="height: 60px; width: 60px; object-fit: cover" />
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <input
-          type="text"
-          id="searchInput"
-          class="input-search"
-          placeholder="Search by location..."
-        />
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href=""><i class="fas fa-home me-1"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../post_property">Post Property <i class="fas fa-paper-plane"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about">About</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="login">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
+    </nav>
+  </header>
+
+  <div class="container my-4 d-flex justify-content-center">
+    <div class="search-box">
+      <button class="btn-search" onclick="filterByLocation()">
+        <i class="fas fa-search"></i>
+      </button>
+      <input type="text" id="searchInput" class="input-search" placeholder="Search by location..." />
     </div>
+  </div>
 
-    <!-- Property List -->
-    <div class="container mt-3">
-      <div class="row" id="propertyList">
-        {% for house in houses %}
-        <div
-          class="col-md-6 mb-4 property-card"
-          data-location="{{ house.location|lower }}"
-        >
-          <div class="card">
-            <img src="{{ house.image.url }}" alt="House Image" />
-            <div class="p-3">
-              <h5>{{ house.title }}</h5>
-              <p class="text-muted">
-                EB Rating:
-                <span class="rating">
-                  {% for _ in "x"|rjust:house.rating|make_list %}
-                  <i class="fas fa-star"></i>
-                  {% endfor %}
-                  <span class="text-dark">{{ house.rating }}</span>
-                </span>
-              </p>
-              <h6 class="text-primary">₹ {{ house.price }}/month</h6>
+  <!-- Property List -->
+  <div class="container mt-4">
+    <div class="row" id="propertyList">
+      {% for house in houses %}
+      <div class="col-md-6 col-lg-4 mb-4 property-card" data-location="{{ house.location|lower }}">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="{{ house.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;"
+            alt="{{ house.title }}">
+          <div class="card-body">
+            <h5 class="card-title fw-bold text-dark">{{ house.title }}</h5>
 
-              <div class="d-flex justify-content-between mt-2">
-                <div class="info-icon">
-                  <i class="fas fa-home"></i> {{ house.property_type }}
-                </div>
-                <div class="info-icon">
-                  <i class="fas fa-lock"></i> ₹{{ house.security_deposit }}
-                  <small class="text-muted">(Security Deposit)</small>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between mt-2">
-                <div class="info-icon">
-                  <i class="fas fa-user"></i> {{ house.preferred_tenants }}
-                </div>
-                <div class="info-icon">
-                  <i class="fas fa-briefcase"></i> {{ house.looking_for }}
-                </div>
-              </div>
-              <div class="info-icon mt-2">
-                <i class="fas fa-couch"></i> {{ house.furnishing }}
-              </div>
-              <a href="../house_detail/{{house.id}}" class="view-btn mt-3"
-                >View Property</a
-              >
+            <p class="text-muted mb-2">
+              <strong>EB Rating:</strong>
+              <span class="text-warning">
+                {% for _ in "x"|rjust:house.rating|make_list %}
+                <i class="fas fa-star"></i>
+                {% endfor %}
+              </span>
+              <span class="text-dark ms-1">{{ house.rating }}</span>
+            </p>
+
+            <h6 class="text-primary fw-semibold">₹ {{ house.price }} /month</h6>
+
+            <div class="d-flex justify-content-between small mt-3">
+              <span><i class="fas fa-home me-1 text-secondary"></i>{{ house.property_type }}</span>
+              <span><i class="fas fa-lock me-1 text-secondary"></i>₹{{ house.security_deposit }}</span>
             </div>
+
+            <div class="d-flex justify-content-between small mt-2">
+              <span><i class="fas fa-user me-1 text-secondary"></i>{{ house.preferred_tenants }}</span>
+              <span><i class="fas fa-briefcase me-1 text-secondary"></i>{{ house.looking_for }}</span>
+            </div>
+
+            <div class="small mt-2 text-muted">
+              <i class="fas fa-couch me-1"></i>{{ house.furnishing }}
+            </div>
+
+            <a href="../house_detail/{{ house.id }}" class="btn btn-outline-primary w-100 mt-3">
+              <i class="fas fa-eye"></i> View Property
+            </a>
           </div>
         </div>
-        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- No Results Message -->
+  <div id="noResultsMessage" class="text-center text-danger mt-4" style="display: none">
+    <h5>
+      No properties found the entered location:
+      "<span id="enteredLocation" class="fw-semibold text-dark"></span>".
+    </h5>
+    <a href="" class="btn btn-outline-danger mt-3"> OK </a>
+  </div>
+  </div>
+  <footer class="bg-dark text-light mt-5">
+    <div class="container py-4">
+      <div class="row">
+        <!-- Logo & About -->
+        <div class="col-md-4 text-center text-md-start">
+          <img src="{% static 'img/Logo.jpg' %}" alt="Logo" class="img-fluid mb-2"
+            style="height: 80px; width: 80px; object-fit: cover" />
+          <p>Your go-to platform for finding rental properties with ease.</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-md-4">
+          <h5 class="fw-bold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-light text-decoration-none">Home</a>
+            </li>
+            <li>
+              <a href="" class="text-light text-decoration-none">About Us</a>
+            </li>
+            <li>
+              <a href="contact" class="text-light text-decoration-none">Contact</a>
+            </li>
+            <li>
+              <a href="profile" class="text-light text-decoration-none">Profile</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Social Media -->
+        <div class="col-md-4 text-center text-md-start">
+          <h5 class="fw-bold">Follow Us</h5>
+          <a href="#" class="text-light me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+          <a href="#" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
+          <a href="#" class="text-light me-3"><i class="fab fa-instagram fa-lg"></i></a>
+        </div>
       </div>
 
-      <!-- No Results Message -->
-      <div
-        id="noResultsMessage"
-        class="text-center text-danger mt-4"
-        style="display: none"
-      >
-        <h5>
-          No properties found the entered location:
-          "<span id="enteredLocation" class="fw-semibold text-dark"></span>".
-        </h5>
-        <a href="" class="btn btn-outline-danger mt-3"> OK </a>
+      <!-- Copyright -->
+      <div class="text-center mt-3">
+        <p class="mb-0">
+          &copy; <span id="year"></span> MyHome. All Rights Reserved.
+        </p>
       </div>
     </div>
-    <footer class="bg-dark text-light mt-5">
-      <div class="container py-4">
-        <div class="row">
-          <!-- Logo & About -->
-          <div class="col-md-4 text-center text-md-start">
-            <img
-              src="{% static 'img/Logo.jpg' %}"
-              alt="Logo"
-              class="img-fluid mb-2"
-              style="height: 80px; width: 80px; object-fit: cover"
-            />
-            <p>Your go-to platform for finding rental properties with ease.</p>
-          </div>
+  </footer>
 
-          <!-- Quick Links -->
-          <div class="col-md-4">
-            <h5 class="fw-bold">Quick Links</h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="#" class="text-light text-decoration-none">Home</a>
-              </li>
-              <li>
-                <a href="" class="text-light text-decoration-none">About Us</a>
-              </li>
-              <li>
-                <a href="contact" class="text-light text-decoration-none"
-                  >Contact</a
-                >
-              </li>
-              <li>
-                <a href="profile" class="text-light text-decoration-none"
-                  >Profile</a
-                >
-              </li>
-            </ul>
-          </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function filterByLocation() {
+      const input = document
+        .getElementById("searchInput")
+        .value.toLowerCase()
+        .trim();
+      const cards = document.querySelectorAll(".property-card");
+      const noResults = document.getElementById("noResultsMessage");
+      let visibleCount = 0;
+      const enteredLocation = document.getElementById("enteredLocation");
 
-          <!-- Social Media -->
-          <div class="col-md-4 text-center text-md-start">
-            <h5 class="fw-bold">Follow Us</h5>
-            <a href="#" class="text-light me-3"
-              ><i class="fab fa-facebook-f fa-lg"></i
-            ></a>
-            <a href="#" class="text-light me-3"
-              ><i class="fab fa-twitter fa-lg"></i
-            ></a>
-            <a href="#" class="text-light me-3"
-              ><i class="fab fa-instagram fa-lg"></i
-            ></a>
-          </div>
-        </div>
-
-        <!-- Copyright -->
-        <div class="text-center mt-3">
-          <p class="mb-0">
-            &copy; <span id="year"></span> MyHome. All Rights Reserved.
-          </p>
-        </div>
-      </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-          function filterByLocation() {
-            const input = document
-              .getElementById("searchInput")
-              .value.toLowerCase()
-              .trim();
-            const cards = document.querySelectorAll(".property-card");
-            const noResults = document.getElementById("noResultsMessage");
-            let visibleCount = 0;
-            const enteredLocation = document.getElementById("enteredLocation");
-
-            cards.forEach((card) => {
-              const location = card.getAttribute("data-location");
-              if (location.includes(input)) {
-                card.style.display = "block";
-                visibleCount++;
-              } else {
-                card.style.display = "none";
-              }
-            });
-            if (visibleCount === 0 && input !== "") {
-              enteredLocation.textContent = input;
-              noResults.style.display = "block";
-            } else {
-          noResults.style.display = "none";
+      cards.forEach((card) => {
+        const location = card.getAttribute("data-location");
+        if (location.includes(input)) {
+          card.style.display = "block";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
         }
-        noResults.style.display = visibleCount === 0 ? "block" : "none";
-
+      });
+      if (visibleCount === 0 && input !== "") {
+        enteredLocation.textContent = input;
+        noResults.style.display = "block";
+      } else {
+        noResults.style.display = "none";
       }
+      noResults.style.display = visibleCount === 0 ? "block" : "none";
 
-          
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>

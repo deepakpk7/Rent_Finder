@@ -6,13 +6,13 @@ from . import views
 urlpatterns = [
     path('login',views.rent_login),
     # path('validate/<name>/<password>/<email>/<otp>',views.validate_otp,name="validate"),
-    path('validate-otp/',views.validate_otp, name='validate_otp'),  # ✅ Add this
+    path('validate-otp/',views.validate_otp, name='validate_otp'),
 
     path('logout',views.rent_logout),
     # -------------------------Admin--------
     path('admin_home',views.admin_home),
     path('add_house', add_house, name='add_house'),
-    path('edit/<id>/', views.edit_house),  # Edit House
+    path('edit/<id>/', views.edit_house),  
     path('delete/<id>/', views.delete_house),
     path('user_post',views.user_post),
     

@@ -1,218 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {% load static %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rent Finder</title>
-    <link rel="stylesheet" href="{% static 'css/user.css' %}" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <script
-      src="https://kit.fontawesome.com/your-fontawesome-kit.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <header class="header">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <!-- Logo & Brand Name -->
-          <a href="../" class="navbar-brand">
-            <img
-              src="{% static 'img/Logo.jpg' %}"
-              alt="Logo"
-              class="img-fluid rounded-circle"
-              style="height: 60px; width: 60px; object-fit: cover"
-            />
-          </a>
 
-          <!-- Mobile Toggle Button -->
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rent Finder</title>
+  <link rel="stylesheet" href="{% static 'css/user.css' %}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
 
-          <!-- Navigation Links -->
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="../"
-                  ><i class="fas fa-home me-1"></i> Home</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="../post_property"
-                  >Post Property <i class="fas fa-paper-plane"></i
-                ></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile"
-                  ><i class="fa-solid fa-user"></i> Profile</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="contact">Contact Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about">About</a>
-              </li>
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="logout">Logout</a>
-              </li>
-              {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="login">Login</a>
-              </li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
+<body>
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <!-- Logo & Brand Name -->
+        <a href="../" class="navbar-brand">
+          <img src="{% static 'img/Logo.jpg' %}" alt="Logo" class="img-fluid rounded-circle"
+            style="height: 60px; width: 60px; object-fit: cover" />
+        </a>
 
-    <div class="container py-5">
-      <h2 class="text-center mb-4">About Rent Finder</h2>
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <p class="lead text-center">
-        Welcome to <strong>Rent Finder</strong>, your go-to solution for
-        discovering or listing rental properties with ease. Whether you're a
-        property owner or someone looking for a new place to live, we are here
-        to simplify the rental experience.
-      </p>
-
-      <hr />
-
-      <div class="row mt-5">
-        <div class="col-md-6">
-          <h4>🌟 Our Mission</h4>
-          <p>
-            Our mission is to bridge the gap between property owners and tenants
-            by providing a transparent, user-friendly, and reliable rental
-            platform. We strive to eliminate the hassle of traditional rental
-            search and offer an experience that is fast, secure, and
-            trustworthy.
-          </p>
-        </div>
-        <div class="col-md-6">
-          <h4>💡 Why Choose Rent Finder?</h4>
-          <ul>
-            <li>✔️ Verified & Trusted Listings</li>
-            <li>✔️ Direct Owner-to-Tenant Communication</li>
-            <li>✔️ Responsive, Mobile-Friendly Design</li>
-            <li>✔️ Easy Property Posting & Management</li>
-            <li>✔️ Filters by BHK Type, Furnishing, Location, Price & More</li>
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="../"><i class="fas fa-home me-1"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../post_property">Post Property <i class="fas fa-paper-plane"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about">About</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="login">Login</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
+    </nav>
+  </header>
 
-      <div class="row mt-5">
-        <div class="col-md-6">
-          <h4>👥 For Property Seekers</h4>
-          <p>
-            Looking for a PG, flat, or family home? Use our intuitive search
-            tools, apply custom filters, and explore genuine listings with clear
-            images and details. Save your favorites and connect instantly with
-            owners.
-          </p>
-        </div>
-        <div class="col-md-6">
-          <h4>🏠 For Property Owners</h4>
-          <p>
-            Post your property in minutes with detailed information and photos.
-            Manage your listings easily from your profile dashboard and receive
-            inquiries directly from potential tenants — no middlemen.
-          </p>
-        </div>
+  <div class="container py-5">
+    <h2 class="text-center mb-4">About Rent Finder</h2>
+
+    <p class="lead text-center">
+      Welcome to <strong>Rent Finder</strong>, your go-to solution for
+      discovering or listing rental properties with ease. Whether you're a
+      property owner or someone looking for a new place to live, we are here
+      to simplify the rental experience.
+    </p>
+
+    <hr />
+
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h4>🌟 Our Mission</h4>
+        <p>
+          Our mission is to bridge the gap between property owners and tenants
+          by providing a transparent, user-friendly, and reliable rental
+          platform. We strive to eliminate the hassle of traditional rental
+          search and offer an experience that is fast, secure, and
+          trustworthy.
+        </p>
       </div>
-
-      <div class="row mt-5">
-        <div class="col text-center">
-          <h4>📞 Need Help?</h4>
-          <p>
-            Our support team is here to assist you. Visit the
-            <a href="contact" class="text-decoration-none">Contact Us</a> page
-            or drop us a message anytime.
-          </p>
-        </div>
+      <div class="col-md-6">
+        <h4>💡 Why Choose Rent Finder?</h4>
+        <ul>
+          <li>✔️ Verified & Trusted Listings</li>
+          <li>✔️ Direct Owner-to-Tenant Communication</li>
+          <li>✔️ Responsive, Mobile-Friendly Design</li>
+          <li>✔️ Easy Property Posting & Management</li>
+          <li>✔️ Filters by BHK Type, Furnishing, Location, Price & More</li>
+        </ul>
       </div>
     </div>
 
-    <footer class="bg-dark text-light mt-5">
-      <div class="container py-4">
-        <div class="row">
-          <!-- Logo & About -->
-          <div class="col-md-4 text-center text-md-start">
-            <img
-              src="{% static 'img/Logo.jpg' %}"
-              alt="Logo"
-              class="img-fluid mb-2"
-              style="height: 80px; width: 80px; object-fit: cover"
-            />
-            <p>Your go-to platform for finding rental properties with ease.</p>
-          </div>
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h4>👥 For Property Seekers</h4>
+        <p>
+          Looking for a PG, flat, or family home? Use our intuitive search
+          tools, apply custom filters, and explore genuine listings with clear
+          images and details. Save your favorites and connect instantly with
+          owners.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h4>🏠 For Property Owners</h4>
+        <p>
+          Post your property in minutes with detailed information and photos.
+          Manage your listings easily from your profile dashboard and receive
+          inquiries directly from potential tenants — no middlemen.
+        </p>
+      </div>
+    </div>
 
-          <!-- Quick Links -->
-          <div class="col-md-4">
-            <h5 class="fw-bold">Quick Links</h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="#" class="text-light text-decoration-none">Home</a>
-              </li>
-              <li>
-                <a href="" class="text-light text-decoration-none">About Us</a>
-              </li>
-              <li>
-                <a href="contact" class="text-light text-decoration-none"
-                  >Contact</a
-                >
-              </li>
-              <li>
-                <a href="profile" class="text-light text-decoration-none"
-                  >Profile</a
-                >
-              </li>
-            </ul>
-          </div>
+    <div class="row mt-5">
+      <div class="col text-center">
+        <h4>📞 Need Help?</h4>
+        <p>
+          Our support team is here to assist you. Visit the
+          <a href="contact" class="text-decoration-none">Contact Us</a> page
+          or drop us a message anytime.
+        </p>
+      </div>
+    </div>
+  </div>
 
-          <!-- Social Media -->
-          <div class="col-md-4 text-center text-md-start">
-            <h5 class="fw-bold">Follow Us</h5>
-            <a href="#" class="text-light me-3"
-              ><i class="fab fa-facebook-f fa-lg"></i
-            ></a>
-            <a href="#" class="text-light me-3"
-              ><i class="fab fa-twitter fa-lg"></i
-            ></a>
-            <a href="#" class="text-light me-3"
-              ><i class="fab fa-instagram fa-lg"></i
-            ></a>
-          </div>
+  <footer class="bg-dark text-light mt-5">
+    <div class="container py-4">
+      <div class="row">
+        <!-- Logo & About -->
+        <div class="col-md-4 text-center text-md-start">
+          <img src="{% static 'img/Logo.jpg' %}" alt="Logo" class="img-fluid mb-2"
+            style="height: 80px; width: 80px; object-fit: cover" />
+          <p>Your go-to platform for finding rental properties with ease.</p>
         </div>
 
-        <!-- Copyright -->
-        <div class="text-center mt-3">
-          <p class="mb-0">
-            &copy; <span id="year"></span> MyHome. All Rights Reserved.
-          </p>
+        <!-- Quick Links -->
+        <div class="col-md-4">
+          <h5 class="fw-bold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-light text-decoration-none">Home</a>
+            </li>
+            <li>
+              <a href="" class="text-light text-decoration-none">About Us</a>
+            </li>
+            <li>
+              <a href="contact" class="text-light text-decoration-none">Contact</a>
+            </li>
+            <li>
+              <a href="profile" class="text-light text-decoration-none">Profile</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Social Media -->
+        <div class="col-md-4 text-center text-md-start">
+          <h5 class="fw-bold">Follow Us</h5>
+          <a href="#" class="text-light me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+          <a href="#" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
+          <a href="#" class="text-light me-3"><i class="fab fa-instagram fa-lg"></i></a>
         </div>
       </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+      <!-- Copyright -->
+      <div class="text-center mt-3">
+        <p class="mb-0">
+          &copy; <span id="year"></span> MyHome. All Rights Reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

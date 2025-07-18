@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -7,6 +8,7 @@
     <title>Edit House</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid d-flex justify-content-between">
@@ -19,47 +21,51 @@
     </nav>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Edit House</h2>
-        
+
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            
+
             <!-- Title -->
             <div class="mb-3">
                 <label class="form-label">Title</label>
                 <input type="text" name="title" class="form-control" value="{{ form.title.value }}" required>
             </div>
-    
+
             <!-- Description -->
             <div class="mb-3">
                 <label class="form-label">Description</label>
-                <textarea name="description" class="form-control" rows="3" required>{{ form.description.value }}</textarea>
+                <textarea name="description" class="form-control" rows="3"
+                    required>{{ form.description.value }}</textarea>
             </div>
-    
+
             <!-- Price & Security Deposit -->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Price</label>
-                    <input type="number" name="price" class="form-control" step="0.01" value="{{ form.price.value }}" required>
+                    <input type="number" name="price" class="form-control" step="0.01" value="{{ form.price.value }}"
+                        required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Security Deposit</label>
-                    <input type="number" name="security_deposit" class="form-control" step="0.01" value="{{ form.security_deposit.value }}" required>
+                    <input type="number" name="security_deposit" class="form-control" step="0.01"
+                        value="{{ form.security_deposit.value }}" required>
                 </div>
             </div>
-    
+
             <!-- Location -->
             <div class="mb-3">
                 <label class="form-label">Location</label>
                 <input type="text" name="location" class="form-control" value="{{ form.location.value }}" required>
             </div>
-    
+
             <!-- Property Type & BHK Type -->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Property Type</label>
                     <select name="property_type" class="form-select" required>
                         {% for value, label in form.property_type.field.choices %}
-                        <option value="{{ value }}" {% if form.property_type.value == value %}selected{% endif %}>{{ label }}</option>
+                        <option value="{{ value }}" {% if form.property_type.value == value %}selected{% endif %}>
+                            {{ label }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -67,19 +73,21 @@
                     <label class="form-label">BHK Type</label>
                     <select name="bhk_type" class="form-select" required>
                         {% for value, label in form.bhk_type.field.choices %}
-                        <option value="{{ value }}" {% if form.bhk_type.value == value %}selected{% endif %}>{{ label }}</option>
+                        <option value="{{ value }}" {% if form.bhk_type.value == value %}selected{% endif %}>{{ label }}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
-    
+
             <!-- Preferred Tenants & Looking For -->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Preferred Tenants</label>
                     <select name="preferred_tenants" class="form-select" required>
                         {% for value, label in form.preferred_tenants.field.choices %}
-                        <option value="{{ value }}" {% if form.preferred_tenants.value == value %}selected{% endif %}>{{ label }}</option>
+                        <option value="{{ value }}" {% if form.preferred_tenants.value == value %}selected{% endif %}>
+                            {{ label }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -87,47 +95,53 @@
                     <label class="form-label">Looking For</label>
                     <select name="looking_for" class="form-select" required>
                         {% for value, label in form.looking_for.field.choices %}
-                        <option value="{{ value }}" {% if form.looking_for.value == value %}selected{% endif %}>{{ label }}</option>
+                        <option value="{{ value }}" {% if form.looking_for.value == value %}selected{% endif %}>
+                            {{ label }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
-    
+
             <!-- Bedrooms & Bathrooms -->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Bedrooms</label>
-                    <input type="number" name="bedrooms" class="form-control" value="{{ form.bedrooms.value }}" required>
+                    <input type="number" name="bedrooms" class="form-control" value="{{ form.bedrooms.value }}"
+                        required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Bathrooms</label>
-                    <input type="number" name="bathrooms" class="form-control" value="{{ form.bathrooms.value }}" required>
+                    <input type="number" name="bathrooms" class="form-control" value="{{ form.bathrooms.value }}"
+                        required>
                 </div>
             </div>
-    
+
             <!-- Furnishing -->
             <div class="mb-3">
                 <label class="form-label">Furnishing</label>
                 <select name="furnishing" class="form-select" required>
                     {% for value, label in form.furnishing.field.choices %}
-                    <option value="{{ value }}" {% if form.furnishing.value == value %}selected{% endif %}>{{ label }}</option>
+                    <option value="{{ value }}" {% if form.furnishing.value == value %}selected{% endif %}>{{ label }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
-    
+
             <!-- Rating & Available From -->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Rating</label>
-                    <input type="number" name="rating" class="form-control" step="0.1" value="{{ form.rating.value }}" required>
+                    <input type="number" name="rating" class="form-control" step="0.1" value="{{ form.rating.value }}"
+                        required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Available From</label>
                     (Recently add ){{ form.available_from.value }}
-                    <input type="date" name="available_from" class="form-control" value="{{ form.available_from.value }}" >
+                    <input type="date" name="available_from" class="form-control"
+                        value="{{ form.available_from.value }}">
                 </div>
             </div>
-    
+
             <!-- Image Upload -->
             <div class="mb-3">
                 <label class="form-label">Upload Image</label>
@@ -138,17 +152,18 @@
                 </div>
                 {% endif %}
             </div>
-    
+
             <!-- Submit Button -->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Save Changes</button>
                 <a href="../../admin_home" class="btn btn-secondary">Cancel</a>
             </div>
-    
+
         </form>
     </div>
-    
-    
+
+
 
 </body>
+
 </html>

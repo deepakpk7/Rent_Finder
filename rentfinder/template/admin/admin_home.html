@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -13,28 +14,34 @@
         body {
             background-color: #f8f9fa;
         }
+
         .container {
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
+
         .table img {
             border-radius: 5px;
         }
+
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
+
         .pagination {
             margin-top: 15px;
             display: flex;
             justify-content: center;
         }
+
         .pagination .page-item {
             cursor: pointer;
         }
     </style>
 </head>
+
 <body>
 
     <!-- Navbar -->
@@ -46,10 +53,14 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link btn btn-primary btn-sm text-white me-2" href="add_house">➕ Add House</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-success btn-sm text-white me-2" href="visit_requests">📅 Visit Requests</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-success btn-sm text-white me-2" href="user_post">User Post</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="logout">🚪 Logout</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary btn-sm text-white me-2" href="add_house">➕
+                            Add House</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-success btn-sm text-white me-2"
+                            href="visit_requests">📅 Visit Requests</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-success btn-sm text-white me-2"
+                            href="user_post">User Post</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="logout">🚪
+                            Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -79,10 +90,12 @@
                         <td>₹{{ house.price }}</td>
                         <td>{{ house.location }}</td>
                         <td>{{ house.get_property_type_display }}</td>
-                        <td>{% if house.image %}<img src="{{ house.image.url }}" width="50" height="50" class="img-thumbnail">{% else %}<span class="text-muted">No Image</span>{% endif %}</td>
+                        <td>{% if house.image %}<img src="{{ house.image.url }}" width="50" height="50"
+                                class="img-thumbnail">{% else %}<span class="text-muted">No Image</span>{% endif %}</td>
                         <td class="action-buttons">
                             <a href="edit/{{house.id}}" class="btn btn-warning btn-sm">✏️ Edit</a>
-                            <a href="delete/{{house.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">🗑️ Delete</a>
+                            <a href="delete/{{house.id}}" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure?');">🗑️ Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -158,7 +171,7 @@
                 let prevButton = document.createElement("li");
                 prevButton.className = "page-item";
                 prevButton.innerHTML = `<a class="page-link">«</a>`;
-                prevButton.onclick = function() {
+                prevButton.onclick = function () {
                     if (currentPage > 1) {
                         currentPage--;
                         displayPage(currentPage);
@@ -170,7 +183,7 @@
                     let btn = document.createElement("li");
                     btn.className = "page-item";
                     btn.innerHTML = `<a class="page-link">${i}</a>`;
-                    btn.onclick = function() {
+                    btn.onclick = function () {
                         currentPage = i;
                         displayPage(currentPage);
                     };
@@ -180,7 +193,7 @@
                 let nextButton = document.createElement("li");
                 nextButton.className = "page-item";
                 nextButton.innerHTML = `<a class="page-link">»</a>`;
-                nextButton.onclick = function() {
+                nextButton.onclick = function () {
                     if (currentPage < pageCount) {
                         currentPage++;
                         displayPage(currentPage);
@@ -201,4 +214,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
